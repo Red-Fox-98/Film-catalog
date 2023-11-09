@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('movie_has_actors', function (Blueprint $table) {
+        Schema::create('user_favorite_reviews', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->foreignId('movie_id')->nullable()->constrained('movies')->cascadeOnDelete();
-            $table->foreignId('actor_id')->nullable()->constrained('actors');
+            $table->foreignId('user_id')->nullable()->constrained('users')->cascadeOnDelete();
+            $table->foreignId('review_id')->nullable()->constrained('reviews')->cascadeOnDelete();
         });
     }
 
@@ -23,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('movie_has_actors');
+        Schema::dropIfExists('user_favorite_reviews');
     }
 };

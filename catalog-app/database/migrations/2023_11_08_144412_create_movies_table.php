@@ -12,14 +12,11 @@ return new class extends Migration {
     {
         Schema::create('movies', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('director_id');
-            $table->unsignedBigInteger('preview_id');
+            $table->foreignId('director_id')->nullable()->constrained('directors');
+            $table->foreignId('preview_id')->nullable()->constrained('previews');
             $table->string('name');
             $table->float('rating');
             $table->date('date');
-
-            $table->foreign('director_id')->references('id')->on('directors');
-            $table->foreign('preview_id')->references('id')->on('previews');
         });
     }
 

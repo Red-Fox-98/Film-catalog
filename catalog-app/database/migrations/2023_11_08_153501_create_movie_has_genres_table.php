@@ -13,11 +13,8 @@ return new class extends Migration
     {
         Schema::create('movie_has_genres', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('movie_id');
-            $table->unsignedBigInteger('genre_id');
-
-            $table->foreign('movie_id')->references('id')->on('movies')->onDelete('cascade');
-            $table->foreign('genre_id')->references('id')->on('genres');
+            $table->foreignId('movie_id')->nullable()->constrained('movies')->cascadeOnDelete();
+            $table->foreignId('genre_id')->nullable()->constrained('genres');
         });
     }
 

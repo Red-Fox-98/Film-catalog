@@ -13,11 +13,9 @@ return new class extends Migration
     {
         Schema::create('galleries', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('movie_id');
+            $table->foreignId('movie_id')->nullable()->constrained('movies')->cascadeOnDelete();
             $table->string('name');
             $table->string('path');
-
-            $table->foreign('movie_id')->references('id')->on('movies')->onDelete('cascade');
         });
     }
 
