@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MovieController;
+use App\Http\Controllers\ReviewController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,3 +22,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::apiResource('/movies', MovieController::class)->only('index');
+
+Route::group(['prefix' => 'auth'], function (){
+    Route::post('/register', [AuthController::class, 'register'])->name('api.auth.register');
+    Route::post('/login', [AuthController::class, 'login'])->name('api.auth.login');
+});
+
+Route::group(['middleware' => 'auth:sanctum'], function (){
+    Route::post('/movies/{id}', [ReviewController::class, 'create'])->name('api.review.create');
+});
+
+
+
+

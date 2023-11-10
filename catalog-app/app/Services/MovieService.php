@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Data\Movie\IndexRequestData;
 use App\Models\Movie;
+use App\Models\Review;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Meilisearch\Endpoints\Indexes;
 
@@ -19,7 +20,7 @@ final class MovieService
             }
 
             if ($dto->filter?->dateTo) {
-                $filters[] = "date < " .  strtotime($dto->filter->dateTo);
+                $filters[] = "date < " . strtotime($dto->filter->dateTo);
             }
 
             if ($dto->filter?->ratingFrom) {
@@ -60,5 +61,11 @@ final class MovieService
         })->paginate();
 
         return $movies;
+    }
+
+    final public function ratingCalculation(Movie $movie): ?float
+    {
+        $ratings = $movie->reviews()->pluck('rating')->toArray();
+        return empty($ratings) ? null : (array_sum($ratings) / count($ratings));
     }
 }

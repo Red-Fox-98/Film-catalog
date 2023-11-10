@@ -8,7 +8,10 @@ use Flugg\Responder\Transformers\Transformer;
 class MovieTransformer extends Transformer
 {
     protected $relations = [];
-    protected $load = [];
+    protected $load = [
+        'actors' => ActorTransformer::class,
+        'director' => DirectorTransformer::class
+    ];
 
     public function transform(Movie $movie): array
     {

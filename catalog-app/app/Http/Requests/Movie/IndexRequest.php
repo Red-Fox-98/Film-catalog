@@ -15,8 +15,8 @@ class IndexRequest extends FormRequest
 
             'filter.dateFrom' => ['string'],
             'filter.dateTo' => ['string'],
-            'filter.ratingFrom' => ['numeric', 'between:0,10.00'],
-            'filter.ratingTo' => ['numeric', 'between:0,10.00'],
+            'filter.ratingFrom' => ['numeric', 'between:0,10.0'],
+            'filter.ratingTo' => ['numeric', 'between:0,10.0'],
             'filter.actorIds' => ['array'],
             'filter.actorIds.*' => ['integer', 'exists:actors,id'],
             'filter.directorId' => ['integer'],
@@ -26,7 +26,7 @@ class IndexRequest extends FormRequest
         ];
     }
 
-    public function getData()
+    public function getData(): IndexRequestData
     {
         return IndexRequestData::from($this->validated());
     }
