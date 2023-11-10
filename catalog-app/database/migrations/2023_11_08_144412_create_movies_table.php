@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->foreignId('director_id')->nullable()->constrained('directors');
             $table->foreignId('preview_id')->nullable()->constrained('previews');
             $table->string('name');
-            $table->float('rating');
+            $table->float('rating')->nullable();
             $table->date('date');
         });
     }
