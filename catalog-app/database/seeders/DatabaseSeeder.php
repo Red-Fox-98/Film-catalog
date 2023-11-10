@@ -21,9 +21,9 @@ class DatabaseSeeder extends Seeder
         Movie::factory(1)->create()
             ->each(static function (Movie $movie) {
                 Gallery::factory(5)->create(['movie_id' => $movie->id]);
-                $genre = Genre::factory(3)->create();
+                $genres = Genre::factory(3)->create();
                 $actors = Actor::factory(7)->create();
-                $movie->genres()->attach($genre->pluck('id'));
+                $movie->genres()->attach($genres->pluck('id'));
                 $movie->actors()->attach($actors->pluck('id'));
             });
 

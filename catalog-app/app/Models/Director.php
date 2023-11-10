@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @property int $id
@@ -22,8 +22,8 @@ class Director extends Model
         'full_name'
     ];
 
-    public function movies(): HasOne
+    public function movies(): HasMany
     {
-        return $this->hasOne(Movie::class);
+        return $this->hasMany(Movie::class);
     }
 }
