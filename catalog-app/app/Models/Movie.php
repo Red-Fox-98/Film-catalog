@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Laravel\Scout\Searchable;
+use phpDocumentor\Reflection\Types\Collection;
 
 /**
  * @property int $id
@@ -16,11 +19,13 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property string $name
  * @property float $rating
  * @property string $date
+ *
+ * @property \Illuminate\Support\Collection<Actor> $actors
  */
 
 class Movie extends Model
 {
-    use HasFactory;
+    use HasFactory, Searchable;
 
     public $timestamps = false;
 
@@ -56,5 +61,16 @@ class Movie extends Model
     public function galleries(): HasMany
     {
         return $this->HasMany(Movie::class);
+    }
+
+    public function toSearchableArray(): array
+    {
+        return [
+            'name' => $this->name,
+            'date' => strtotime($this->date),
+            'rating' => $this->rating,
+            'actorIds' => $this->actors->pluck('id')->toArray(),
+            'directorId' => $this->director_id
+        ];
     }
 }
