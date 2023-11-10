@@ -2,7 +2,14 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Actor;
+use App\Models\Gallery;
+use App\Models\Genre;
+use App\Models\Movie;
+use App\Models\Review;
+use App\Models\User;
+use App\Services\MovieService;
+use Database\Factories\GalleryFactory;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -12,11 +19,20 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
+        $movies = Movie::factory(1)->create();
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+
+
+        $movies->each(static function (Movie $movie) {
+            Review::factory(9)->create(['movie_id' => $movie->id]);
+            $movie->rating = app()->make(MovieService::class)->ratingCalculation($movie);
+            $movie->save();
+
+            Gallery::factory(5)->create(['movie_id' => $movie->id]);
+            $genres = Genre::factory(3)->create();
+            $actors = Actor::factory(7)->create();
+            $movie->genres()->attach($genres->pluck('id'));
+            $movie->actors()->attach($actors->pluck('id'));
+        });
     }
 }
