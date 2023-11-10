@@ -48,7 +48,7 @@ class Movie extends Model
         return $this->belongsToMany(Actor::class, MovieHasGenre::class, 'movie_id', 'genre_id', 'id', 'id');
     }
 
-    public function directors(): BelongsTo
+    public function director(): BelongsTo
     {
         return $this->belongsTo(Director::class);
     }
@@ -61,6 +61,11 @@ class Movie extends Model
     public function galleries(): HasMany
     {
         return $this->HasMany(Movie::class);
+    }
+
+    public function reviews(): HasMany
+    {
+        return $this->HasMany(Review::class);
     }
 
     public function toSearchableArray(): array
